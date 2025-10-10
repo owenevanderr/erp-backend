@@ -40,9 +40,9 @@ export class ProductsService {
 
   lowStock() {
     // Compare columns using raw SQL (Prisma does not support column-to-column comparisons in filters)
-    return this.prisma.$queryRawUnsafe<any[]>(
-      'SELECT * FROM "Product" WHERE "stock" < "lowStockThreshold" ORDER BY "stock" ASC',
-    );
+    return this.prisma.$queryRawUnsafe(`
+      SELECT * FROM "Product" WHERE "stock" < "lowStockThreshold" ORDER BY "stock" ASC"
+    `);
   }
 }
 

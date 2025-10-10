@@ -11,9 +11,10 @@ export class DashboardController {
   @Get('summary')
   async summary() {
     const [lowStockCount, activeWorkOrders, cashInAgg, cashOutAgg] = await Promise.all([
-      this.prisma.$queryRawUnsafe<{ count: bigint }[]>(
-        'SELECT COUNT(1)::bigint as count FROM "Product" WHERE "stock" < "lowStockThreshold"',
-      ),
+      this.prisma.$queryRawUnsafe(`
+        SELECT COUNT(1)::bigint as count FROM "Product" WHERE "stock" < "lowStockThreshold"
+      `) as unknown as { count: bigint }[]
+      ,
       this.prisma.workOrder.count({ where: { status: { in: ['PLANNED', 'IN_PROGRESS'] as any } } }),
       this.prisma.transaction.aggregate({ _sum: { amount: true }, where: { type: 'CASH_IN' as any } }),
       this.prisma.transaction.aggregate({ _sum: { amount: true }, where: { type: 'CASH_OUT' as any } }),
