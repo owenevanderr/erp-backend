@@ -4,16 +4,20 @@ WORKDIR /app
 
 
 
-COPY . .
+COPY package*.json ./
 
 # Install depedencies 
 RUN npm install
-# Build TypeScript
-RUN npm run build
+
+COPY . .
 
 # Generate Prisma client
 RUN npx prisma generate
+# Build TypeScript
+RUN npm run build
+
+
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start:prod"]
+CMD ["node", "dist/main.js"]
