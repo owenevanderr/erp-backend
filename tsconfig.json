@@ -14,14 +14,7 @@
     "strict": true,
     "skipLibCheck": true,
     "paths": {
-      "*": [
-        "node_modules/*",
-        "src/*"
-      ]
+      "*": ["node_modules/*", "src/*"]
     }
   }
 }
-
-
-
-
